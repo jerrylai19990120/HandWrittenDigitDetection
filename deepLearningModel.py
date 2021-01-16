@@ -1,24 +1,29 @@
 import tensorflow as tf
 import numpy as np
+from keras.utils import to_categorical
 
 mnist = tf.keras.datasets.mnist
 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
+x_train = x_train.reshape(60000, 28, 28, 1)
+x_test = x_test.reshape(10000, 28, 28, 1)
+
+y_train = to_categorical(y_train)
+y_test = to_categorical(y_test)
+
 model = tf.keras.models.Sequential()
 
-model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))
-model.add(tf.keras.layers.Dense(units=128, activation=tf.keras.activations.relu))
-model.add(tf.keras.layers.Dense(units=128, activation=tf.keras.activations.relu))
-model.add(tf.keras.layers.Dense(units=10, activation=tf.keras.activations.softmax))
+model.add(tf.keras.layers.Conv2D(32, kernel_size=3, activation="relu", input_shape=(28,28,1)))
+model.add(tf.keras.layers.Conv2D(64, kernel_size=3, activation="relu"))
+model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Dense(10, activation="softmax"))
 
-model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-x_train = tf.keras.utils.normalize(x_train, axis=1)
-x_test = tf.keras.utils.normalize(x_test, axis=1)
 
-model.fit(x_train, y_train, epochs=18)
+model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=3)
 loss, accuracy = model.evaluate(x_test, y_test)
 
-model.save("deepLearningModel.model")
+model.save("digit.model")
 
