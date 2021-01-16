@@ -1,0 +1,4 @@
+virt/
+coverage/
+deepLearningModel.model/
+*.png
