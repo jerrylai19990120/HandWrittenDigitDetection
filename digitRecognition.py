@@ -7,11 +7,8 @@ import numpy as np
 from PIL import ImageTk,Image
 import PIL.Image
 import io
-import os
 
-os.environ["PATH"] += ':/Users/jerrylai/Desktop/digitRecognition/virt/lib/python3.8/site-packages'
-
-model = load_model("deepLearningModel.model")
+model = load_model("digit.model")
 
 window = tk.Tk()
 window.title("Digit Recognition")
@@ -25,16 +22,17 @@ def writeDigit(event):
     predictButton.configure(state=NORMAL)
 
 def makePrediction():
-    img = cv2.imread('2.png')
+    """img = cv2.imread('2.png')
     img = np.array(img)
     img = cv2.resize(img, (28, 28))
     
     pred = model.predict(img)
     print(np.argmax(pred))
-    """ps = canvas.postscript(colormode="color")
+    """
+    ps = canvas.postscript(colormode="color")
     img = Image.open(io.BytesIO(ps.encode('utf-8')))
     img.save("rgeg.jpg")
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    """img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = np.array(img)
 
     img = np.reshape(1, 28, 28, 1)
