@@ -22,24 +22,34 @@ def writeDigit(event):
     predictButton.configure(state=NORMAL)
 
 def makePrediction():
-    """img = cv2.imread('2.png')
-    img = np.array(img)
-    img = cv2.resize(img, (28, 28))
+    """img = cv2.imread('5.png')
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    gray = cv2.resize(gray, (28, 28))
+    gray = np.array(gray)
+    reshaped = np.reshape(gray, (1, 28, 28, 1))
+    reshaped = reshaped / 255.0
+    result = model.predict(reshaped)"""
     
-    pred = model.predict(img)
-    print(np.argmax(pred))
-    """
+    
+    
     ps = canvas.postscript(colormode="color")
     img = Image.open(io.BytesIO(ps.encode('utf-8')))
-    img.save("rgeg.jpg")
-    """img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    img = img.resize((28, 28))
+    img = img.convert('L')
     img = np.array(img)
 
     img = np.reshape(1, 28, 28, 1)
     img = img/255.0
 
     result = model.predict(img)
-    print(np.argmax(result))"""
+    
+    resLabel = tk.Label(window, text=f"Predicted result: {np.argmax(result)}", fg="black", width=32, height=1, bg="lime", font=("times", 16, "bold"))
+    resLabel.place(x=160, y=328)
+
+    accLabel = tk.Label(window, text=f"Accuracy: {result[0][np.argmax(result)]}", fg="black", width=32, height=1, bg="lime", font=("times", 16, "bold"))
+    accLabel.place(x=160, y=348)
+
 
 
 def clearDigit():
