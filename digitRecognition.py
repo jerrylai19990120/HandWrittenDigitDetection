@@ -22,15 +22,6 @@ def writeDigit(event):
     predictButton.configure(state=NORMAL)
 
 def makePrediction():
-    """img = cv2.imread('5.png')
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    gray = cv2.resize(gray, (28, 28))
-    gray = np.array(gray)
-    reshaped = np.reshape(gray, (1, 28, 28, 1))
-    reshaped = reshaped / 255.0
-    result = model.predict(reshaped)"""
-    
-    
     
     ps = canvas.postscript(colormode="color")
     img = Image.open(io.BytesIO(ps.encode('utf-8')))
@@ -39,8 +30,8 @@ def makePrediction():
     img = img.convert('L')
     img = np.array(img)
 
-    img = np.reshape(1, 28, 28, 1)
-    img = img/255.0
+    img = img.reshape(1, 28, 28, 1)
+    img = img / 255.0
 
     result = model.predict(img)
     
