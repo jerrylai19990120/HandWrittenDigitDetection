@@ -22,8 +22,8 @@ model.add(tf.keras.layers.Dense(10, activation="softmax"))
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
 
-model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=3)
+model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=20)
 loss, accuracy = model.evaluate(x_test, y_test)
 
-model.save("digit.model")
+model.save("digit.h5")
 

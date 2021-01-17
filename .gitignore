@@ -2,3 +2,4 @@ virt/
 coverage/
 deepLearningModel.model/
 *.png
+*.h5

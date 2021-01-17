@@ -8,7 +8,7 @@ from PIL import ImageTk,Image
 import PIL.Image
 import io
 
-model = load_model("digit.model")
+model = load_model("digit.h5")
 
 window = tk.Tk()
 window.title("Digit Recognition")
@@ -17,12 +17,14 @@ window.geometry("460x460")
 def writeDigit(event):
     x = event.x
     y = event.y
-    r=8
+    r=16
     canvas.create_oval(x, y, x+r, y+r, fill="black")
     predictButton.configure(state=NORMAL)
 
 def makePrediction():
     
+    global accLabel, resLabel
+
     ps = canvas.postscript(colormode="color")
     img = Image.open(io.BytesIO(ps.encode('utf-8')))
 
@@ -34,7 +36,7 @@ def makePrediction():
     img = img / 255.0
 
     result = model.predict(img)
-    
+
     resLabel = tk.Label(window, text=f"Predicted result: {np.argmax(result)}", fg="black", width=32, height=1, bg="lime", font=("times", 16, "bold"))
     resLabel.place(x=160, y=328)
 
@@ -46,6 +48,8 @@ def makePrediction():
 def clearDigit():
     predictButton.configure(state=DISABLED)
     canvas.delete('all')
+    accLabel.destroy()
+    resLabel.destroy()
 
 predictButton = tk.Button(window, text="Predict", width=15, bg="orange", fg='black', font=('times', 18, 'bold'), command=makePrediction, state=DISABLED)
 predictButton.place(x=16, y=100)
